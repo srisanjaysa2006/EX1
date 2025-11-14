@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fresh Microblogging App</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #e0f7fa;
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 1rem 2rem;
+      color: #004d40;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-weight: 600;
+      font-size: 2.6rem;
+      margin-bottom: 0.1rem;
+      color: #00796b;
+    }
+
+    header p {
+      font-weight: 400;
+      font-size: 1.1rem;
+      color: #004d40cc;
+    }
+
+    form {
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      border: 1.5px solid #80cbc4;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: #00796b;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      background: #00796b;
+      border: none;
+      padding: 0.85rem 1.5rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 121, 107, 0.4);
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #004d40;
+    }
+
+    #postsContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+    }
+
+    .post {
+      background: #b2dfdb;
+      border-radius: 20px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      color: #004d40;
+      font-weight: 500;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .post .post-header {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+      color: #004d40cc;
+    }
+
+    .post .content {
+      white-space: pre-wrap;
+      font-size: 1.05rem;
+      color: #00251a;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #004d4080;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Fresh Microblog</h1>
+    <p>Express yourself in short posts!</p>
+  </header>
+
+  <form id="postForm">
+    <input type="text" id="username" placeholder="Your username" maxlength="30" required />
+    <textarea id="postContent" placeholder="What's on your mind?" maxlength="280" required></textarea>
+    <button type="submit">Post</button>
+  </form>
+
+  <section id="postsContainer">
+    <div class="post">
+      <div class="post-header">
+        <span>@welcome_user</span>
+        <time>Just now</time>
+      </div>
+      <div class="content">Welcome to the Fresh Microblog! Start sharing your thoughts above.</div>
+    </div>
+  </section>
+
+  <p class="footer-note">* This demo app does not save posts permanently.</p>
+
+  <script>
+    const postForm = document.getElementById('postForm');
+    const postsContainer = document.getElementById('postsContainer');
+
+    postForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const content = document.getElementById('postContent').value.trim();
+
+      if (!username || !content) return;
+
+      const post = document.createElement('div');
+      post.classList.add('post');
+
+      // Format time (just HH:MM)
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      post.innerHTML = `
+        <div class="post-header">
+          <span>@${ram}</span>
+          <time>${timeStr}</time>
+        </div>
+        <div class="content"></div>
+      `;
+      post.querySelector('.content').textContent = content;
+
+      // Add new post at the top
+      postsContainer.insertBefore(post, postsContainer.firstChild);
+
+      // Clear form
+      postForm.reset();
+    });
+  </script>
+
+</body>
+</html>
